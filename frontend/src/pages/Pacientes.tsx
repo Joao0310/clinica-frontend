@@ -7,7 +7,7 @@ import {
 } from "../services/api"
 import type { Paciente } from "../types/paciente"
 
-export default function Pacientes() {
+export default function Pacientes({ onLogout }: { onLogout: () => void }) {
   const [pacientes, setPacientes] = useState<Paciente[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -109,6 +109,11 @@ export default function Pacientes() {
     <div style={{ padding: 24 }}>
       <h1>Pacientes</h1>
 
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
+        <h2>Pacientes</h2>
+        <button onClick={onLogout}>Sair</button>
+      </div>
+      
       <form onSubmit={enviarFormulario} style={{ marginBottom: 24 }}>
         <div>
           <label>Nome</label>

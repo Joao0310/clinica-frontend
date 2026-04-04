@@ -1,7 +1,18 @@
 const API_URL = "http://localhost:5000"
 
+function getAuthHeaders() {
+  const token = localStorage.getItem("token")
+
+  return {
+    "Content-Type": "application/json",
+    ...(token && { Authorization: `Bearer ${token}` }),
+  }
+}
+
 export async function listarPacientes() {
-  const response = await fetch(`${API_URL}/pacientes/`)
+  const response = await fetch(`${API_URL}/pacientes/`, {
+    headers: getAuthHeaders(),
+  })
 
   if (!response.ok) {
     throw new Error("Erro ao buscar pacientes")
@@ -19,9 +30,7 @@ export async function criarPaciente(dados: {
 }) {
   const response = await fetch(`${API_URL}/pacientes/`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(dados),
   })
 
@@ -35,6 +44,7 @@ export async function criarPaciente(dados: {
 export async function excluirPaciente(id: string) {
   const response = await fetch(`${API_URL}/pacientes/${id}`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   })
 
   if (!response.ok) {
@@ -56,9 +66,7 @@ export async function atualizarPaciente(
 ) {
   const response = await fetch(`${API_URL}/pacientes/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(dados),
   })
 
