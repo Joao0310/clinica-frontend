@@ -103,13 +103,14 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const API = import.meta.env.VITE_API_URL
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
     setLoading(true)
     try {
-      const response = await axios.post("http://localhost:5000/auth/login", { email, password })
+      const response = await axios.post(`${API}/auth/login`, { email, password })
       localStorage.setItem("token", response.data.token)
       onLogin()
     } catch {
